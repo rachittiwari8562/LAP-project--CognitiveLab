@@ -1,13 +1,17 @@
 import React ,{ useState }from 'react'
 import NbackTestSet from '../../../Components/NbackTestSet'
 import SubHeaderNback from '../../../Components/SubHeaderNback'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import Result from './Result';
+var final_results = []
 
 const Demo = (props) => {
 
     const [pageNo,changePage] = useState(1)
+    const [finalResult,setResult] = useState([])
 
     const nextPage = (page) =>{
-        if (page<5){
+        if (page<6){
             changePage(page+1)
         }
     }
@@ -18,9 +22,52 @@ const Demo = (props) => {
         }
     }
 
+    const add_result = (nback,n,correct_answer,time,responded,true_correct,false_correct,true_wrong,false_wrong) =>{
+
+        var mean_time = 0
+        var i =0
+        for (i=0;i<time.length;i++){
+            if (!isNaN(time[i])){
+                mean_time += time[i]
+            }
+        }
+
+        var chart_data = []
+
+        for (i=0;i<n;i++){
+            var t = 0
+            if (!isNaN(time[i])){
+                t=time[i]
+            }
+            chart_data.push(
+                {
+                    index:i+1,
+                    time_taken:t
+                }
+            )
+        }
+
+        if (responded!=0){
+            mean_time = mean_time/responded;
+        }
+        final_results.push({
+            "n":n,
+            "nback":nback,
+            "correct_answer":correct_answer,
+            "responded":responded,
+            "true_correct":true_correct,
+            "false_correct":false_correct,
+            "true_wrong":true_wrong,
+            "false_wrong":false_wrong,
+            "chart_data":chart_data,
+            "mean_time":mean_time
+        })
+        setResult(final_results);
+    }
 
     return (
-        <div  className="relative lg:w-3/4 h-3/4 mx-auto mb-5" >
+        <div className="overflow-auto relative h-5/6">
+        <div  className="relative lg:w-3/4 h-full mx-auto" >
             {pageNo==1 &&
                 <div>
                     <SubHeaderNback content="N-back Memory Task: Practice Start"/>
@@ -31,9 +78,6 @@ const Demo = (props) => {
                         <h5 >In order to gain familiarity with the task , you can now practice it by doing a 0-back test ,</h5>
                         <h5>  a 1-back, a 2-back and a 3-back in that order .</h5>
                         <br/>
-                        <h5>In order to assist you in practice there will a "GOOD" sound when your response is correct ,</h5>
-                        <h5>and "BAD" sound when your response is wrong.</h5>
-                        <h5 className="text-red-700">*Note this aid will not be provided in real task .</h5>
                     </div>
 
                 </div>
@@ -42,35 +86,35 @@ const Demo = (props) => {
                 <div>
                     <SubHeaderNback content="Do a 0-Back Task"/>
                     <h5 className="text-2xl font-bold mt-4">Press "A" when letter is "M" , Otherwise press "D" .</h5>
-                    <NbackTestSet nback={0} n={10} max_right={3} min_right={2} nextPage={()=>nextPage(pageNo)}/>
+                    <NbackTestSet nback={0} n={10} max_right={3} min_right={2} nextPage={()=>nextPage(pageNo)} add_result={add_result}/>
                 </div>
             }
             {pageNo==3 &&
                 <div>
                     <SubHeaderNback content="Do a 1-Back Task"/>
-                    <h5 className="text-2xl font-bold mt-4">Press "A" when letter is "M" , Otherwise press "D" .</h5>
-                    <NbackTestSet nback={1} n={10} max_right={3} min_right={2} nextPage={()=>nextPage(pageNo)}/>
+                    <h5 className="text-2xl font-bold mt-4"></h5>
+                    <NbackTestSet nback={1} n={10} max_right={3} min_right={2} nextPage={()=>nextPage(pageNo)} add_result={add_result}/>
                 </div>
             }
             {pageNo==4 &&
                 <div>
                     <SubHeaderNback content="Do a 2-Back Task"/>
-                    <h5 className="text-2xl font-bold mt-4">Press "A" when letter is "M" , Otherwise press "D" .</h5>
-                    <NbackTestSet nback={2} n={10} max_right={3} min_right={2} nextPage={()=>nextPage(pageNo)}/>
+                    <h5 className="text-2xl font-bold mt-4"></h5>
+                    <NbackTestSet nback={2} n={10} max_right={3} min_right={2} nextPage={()=>nextPage(pageNo)} add_result={add_result}/>
                 </div>
             }
             {pageNo==5 &&
                 <div>
                     <SubHeaderNback content="Do a 3-Back Task"/>
-                    <h5 className="text-2xl font-bold mt-4">Press "A" when letter is "M" , Otherwise press "D" .</h5>
-                    <NbackTestSet nback={3} n={10} max_right={3} min_right={2} nextPage={()=>nextPage(pageNo)}/>
+                    <h5 className="text-2xl font-bold mt-4"></h5>
+                    <NbackTestSet nback={3} n={10} max_right={3} min_right={2} nextPage={()=>nextPage(pageNo)} add_result={add_result}/>
                 </div>
             }
             {pageNo==6 &&
-                <div>
-                    <SubHeaderNback content="Results"/>
-                    <h5 className="text-2xl font-bold mt-4">Following are the Results of the Demo Tasks. Now Proceed to Real Task</h5>
-                    <button className="" onClick={props.goToTask}>Go to Real Test</button>
+                <div className="">
+                    <SubHeaderNback content="Results :"/>
+                    <Result data={finalResult}/>
+                    <button className=" block mx-auto mt-5 px-4 py-2 mx-10 rounded-md text-2xl font-bold border-4 border-green-700 text-green-900 hover:bg-green-700 hover:text-white" onClick={props.goToTask}>Go to Real Test</button>
                 </div>
             }
 
@@ -86,6 +130,7 @@ const Demo = (props) => {
                 }
                 <div className="flex-grow"></div>
             </div>
+        </div>
         </div>
     )
 }

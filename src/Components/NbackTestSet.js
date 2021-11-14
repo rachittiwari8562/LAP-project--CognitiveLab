@@ -21,7 +21,7 @@ var allowedToClick = false;
 
 
 
-const NbackTestSet = ({nback,n,max_right,min_right,nextPage}) => 
+const NbackTestSet = ({nback,n,max_right,min_right,nextPage,add_result}) => 
 {
     const [isStarted,StartGame] = useState("no")
     const [currentIndex,updateIndex] = useState(0)
@@ -40,6 +40,7 @@ const NbackTestSet = ({nback,n,max_right,min_right,nextPage}) =>
         true_correct = 0
         false_correct =0
         true_wrong =0
+        false_wrong =0
         time_taken =[]
         responded =0
         allowedToClick = false
@@ -137,10 +138,8 @@ const NbackTestSet = ({nback,n,max_right,min_right,nextPage}) =>
         console.log(choosen_set)
         console.log(test_set)
 
-        // setInterval(animate_letters,1000);
-        console.log(document)
-
-      }, []);
+      }
+      , []);
 
 
     useEffect(()=>{
@@ -153,6 +152,9 @@ const NbackTestSet = ({nback,n,max_right,min_right,nextPage}) =>
             allowedToClick = true;
             initialTime = Date.now();
             setTimeout(()=>{StartGame("end")},2500);
+        }
+        if (isStarted=="end"){
+            add_result(nback,n,correct_answer,time_taken,responded,true_correct,false_correct,true_wrong,false_wrong)
         }
     },[isStarted,currentIndex]);
 
@@ -200,8 +202,9 @@ const NbackTestSet = ({nback,n,max_right,min_right,nextPage}) =>
                 }
 
                 else{
+                    console.log("galat kiye ho")
 
-                    if (choice =="A"){
+                    if (choice == "A"){
                         false_wrong+=1
                     }
                     else{

@@ -8,6 +8,9 @@ module.exports = {
       },
       margin: {
         '100': '28rem',
+      },
+      gridTemplateColumns: {
+       '16': 'repeat(16, minmax(0, 1fr))',
       }
     },
   },

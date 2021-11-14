@@ -1,6 +1,6 @@
 import React from 'react'
 
-var notSelectedStyle="group text-center md:w-2/3 lg:w-2/3 h-36 md:h-60 bg-white hover:bg-purple-700 hover:text-white rounded-lg shadow-2xl overflow-hidden my-10 text-gray-700 cursor-pointer"
+var notSelectedStyle="group bg-gray-100 text-center md:w-2/3 lg:w-2/3 h-36 md:h-60 hover:bg-purple-700 hover:text-white rounded-lg shadow-2xl overflow-hidden my-10 text-gray-700 cursor-pointer"
 var selectedStyle = "group text-center md:w-2/3 lg:w-2/3 h-36 md:h-60 bg-purple-700  rounded-lg shadow-2xl overflow-hidden my-10 text-white cursor-pointer"
 
 var subStyle=""
@@ -10,7 +10,7 @@ const checkSelected = (name,selected)=>{
         return selectedStyle
     }
     else{
-        subStyle="text-xs md:text-lg text-gray-400 font-bold group-hover:text-white"
+        subStyle="text-xs md:text-lg text-gray-600 font-bold group-hover:text-white"
         return notSelectedStyle
     }
 }

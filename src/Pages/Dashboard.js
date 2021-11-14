@@ -13,7 +13,7 @@ import Analytics from '../Pages/Analytics';
 
 const navigation = [
   { name: 'Tests',current: true,routes:"/dashboard/tests"},
-  { name: 'Analytics', current: false,routes:"/dashboard/analytics" },
+  // { name: 'Analytics', current: false,routes:"/dashboard/analytics" },
   { name: 'Team',current: false,routes:"/dashboard/team" },
   { name: 'References',current:false,routes:"/dashboard/references"}
 ]
@@ -35,6 +35,7 @@ const Dashboard = (props) =>{
                       alt="Workflow"
                     />
                   </div>
+                  <h5 className="text-3xl pl-5 font-bold text-white">Cognitive Labs</h5>
                   <div className="hidden md:block">
                     <div className="ml-16 flex items-baseline space-x-6">
                       {navigation.map((item) => (
