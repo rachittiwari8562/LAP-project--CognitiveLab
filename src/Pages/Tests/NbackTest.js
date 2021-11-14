@@ -9,7 +9,7 @@ const NbackTest = () => {
     const [selectedStage,selectStage] = useState("Intro")
 
     return (
-        <div className="w-screen h-screen">
+        <div className="w-screen h-screen flex-col">
             <TestHeader test={{name:"N-Back Test Digit"}} selectedOption={selectedStage} selectOption={selectStage} />
             
             {selectedStage === "Intro" && <IntroNback goToDemo={()=>selectStage("Demo")}/>}

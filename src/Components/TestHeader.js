@@ -28,15 +28,13 @@ const TestHeader= ({test,selectedOption,selectOption}) => {
             </div>
             {Object.keys(items).map((item)=>(
                 <button 
+                    key={item}
                     onClick={()=>selectOption(item)}
                     className={"px-4 py-1 mx-4 rounded-md text-lg font-bold border-2 border-gray-400"+
                     (selectedOption==item?" bg-gray-700 text-white":" text-gray hover:bg-gray-700 hover:text-white")}>
                     {items[item]}
                 </button>
             ))}
-            <div className="px-5 py-2 ml-12 rounded-sm text-2xl font-bold border-2 border-green-600 text-green-700 shadow-lg">
-                00:00:45
-            </div>
             <div className ="flex-grow">
             </div>
             <div className ="flex-grow">
